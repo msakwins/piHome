@@ -1,22 +1,11 @@
-export const seasons = {
-  spring: {
-    bgDay: "linear-gradient(180deg,#EAF7F0,#F5FFF9)",
-    bgNight: "linear-gradient(180deg,#1F2B26,#16201C)",
-    accent: "#8ED1B2"
+export const fontTheme = {
+  dark: {
+    color: "rgb(44, 62, 80)",
+    textShadow: "0 0 1px rgba(230, 234, 255, 0.7)",
   },
-  summer: {
-    bgDay: "linear-gradient(180deg,#FFF4D6,#FFE8B0)",
-    bgNight: "linear-gradient(180deg,#2A1F12,#1C140B)",
-    accent: "#FFB86C"
+  light: {
+    color: "rgb(255, 250, 235)",
+    textShadow: "0 0 2px rgba(11, 28, 121, 0.7)",
   },
-  autumn: {
-    bgDay: "linear-gradient(180deg,#F3E5D8,#EAD2C0)",
-    bgNight: "linear-gradient(180deg,#2B221A,#1D1712)",
-    accent: "#D28B5C"
-  },
-  winter: {
-    bgDay: "linear-gradient(180deg,#EAF0F6,#DCE7F3)",
-    bgNight: "linear-gradient(180deg,#1B2430,#141B24)",
-    accent: "#8FAFD8"
-  }
+
 }

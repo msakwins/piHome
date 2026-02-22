@@ -12,11 +12,6 @@ body {
   min-width: unset;
 }
 
-.font-shadow {
-  color: rgb(255, 250, 235);
-  text-shadow: 0 0 2px rgba(11, 28, 121, 0.7);
-}
-
 .app {
   height: 100%;
   width: 100%;
