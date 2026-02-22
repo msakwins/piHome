@@ -1,0 +1,110 @@
+#root {
+  height: 600px;
+  max-height: 600px;
+  max-width: 1024px;
+  width: 1024px;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui;
+  min-height: unset;
+  min-width: unset;
+}
+
+.font-shadow {
+  color: rgb(255, 250, 235);
+  text-shadow: 0 0 2px rgba(11, 28, 121, 0.7);
+}
+
+.app {
+  height: 100%;
+  width: 100%;
+  padding: 20px 20px 10px;
+  box-sizing: border-box;
+  background: rgb(227, 239, 253);
+  background-size: cover;
+  background-position: center;
+}
+
+.header {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 0 16px;
+  padding: 10px 30px;
+  font-size: 20px;
+}
+
+.main {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  height: auto;
+  width: 100%;
+}
+
+.mesure {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.co2 {
+  height: 100px;
+  width: 100%;
+}
+
+.particule {
+  height: 100px;
+  width: 100%;
+}
+
+.painting-info {
+  display: flex;
+  font-size: 14px;
+  flex-direction: column;
+align-items: flex-end;
+  > h2 {
+    margin:  0;
+  }
+
+  > p {
+    margin: 0;
+  }
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.08); /* Encore plus transparent */
+  backdrop-filter: blur(6px) saturate(94%);
+  -webkit-backdrop-filter: blur(5px) saturate(94%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 28px; /* Plus arrondi */
+  overflow: hidden;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    0 2px 8px rgba(0, 0, 0, 0.06),
+    inset 0 1px 1px rgba(255, 255, 255, 0.4),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.glass-reflection {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(255, 255, 255, 0) 40%,
+    rgba(255, 255, 255, 0) 60%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  pointer-events: none;
+  border-radius: 24px;
+}

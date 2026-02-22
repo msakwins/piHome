@@ -1,0 +1,33 @@
+.clock {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  font-size: 40px;
+  font-weight: 600;
+  margin: 0;
+  gap: 20px;
+  font-size: 24px;
+  font-weight: 400;
+}
+
+
+.date-city {
+  display: flex;
+  flex-direction: column;
+}
+
+.time {
+  font-size: 52px;
+  line-height: 64px;
+  font-weight: 700;
+}
+
+.city {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.date {
+  font-size: 18px;
+  font-weight: 500;
+}
