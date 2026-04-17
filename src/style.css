@@ -29,8 +29,7 @@ body {
   justify-content: space-between;
   align-items: center;
   margin: 0 0 16px;
-  padding: 10px 30px;
-  font-size: 20px;
+  padding: 12px 30px;
 }
 
 .main {
@@ -50,20 +49,77 @@ body {
 }
 
 .co2 {
-  height: 100px;
-  width: 100%;
+  height: auto;
+  width: auto;
+  padding: 10px 20px;
+  > p {
+    width: fit-content;
+  }
 }
 
-.particule {
-  height: 100px;
-  width: 100%;
+
+.gauges {
+  display:flex;
+  gap:20px;
+}
+
+.gauge {
+  width: 70px;
+  aspect-ratio: 1;
+  position: relative;
+}
+
+/* donut progress */
+.gauge::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+
+  /* progress + remainder */
+  background: conic-gradient(
+    from 0deg,
+    var(--color1) 0%,
+    var(--color2) calc(var(--value) * 1%),
+    grey 0
+  );
+
+  /* inner hole */
+  -webkit-mask: radial-gradient(
+    farthest-side,
+    transparent calc(100% - 6px),
+    #000 0
+  );
+
+  mask: radial-gradient(
+    farthest-side,
+    transparent calc(100% - 6px),
+    #000 0
+  );
+}
+
+.inner {
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  color:white;
+  z-index:1;
+}
+
+.inner span {
+  font-size:11px;
+  opacity:0.8;
 }
 
 .painting-info {
   display: flex;
   font-size: 14px;
   flex-direction: column;
-align-items: flex-end;
+  align-items: flex-end;
   > h2 {
     margin:  0;
   }
@@ -75,8 +131,8 @@ align-items: flex-end;
 
 .glass-effect {
   background: rgba(255, 255, 255, 0.08); /* Encore plus transparent */
-  backdrop-filter: blur(6px) saturate(94%);
-  -webkit-backdrop-filter: blur(5px) saturate(94%);
+  backdrop-filter: blur(0.8px) saturate(120%);
+  -webkit-backdrop-filter: blur(0.8px) saturate(120%);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 28px; /* Plus arrondi */
   overflow: hidden;

@@ -34,13 +34,7 @@ export const paintings = [
     artist: "Armand Guillaumin",
     date: ""
 },
-{
-    id: 6,
-    title: "Windermere During the Regatta",
-    src: "/Windermere_During_the_Regatta.jpg",
-    artist: "David Cox",
-    date: "(1832)"
-},
+
 {
     id: 7,
     title: "Mountainous Scene with a lake",
@@ -62,13 +56,7 @@ export const paintings = [
     artist: "František Kaván",
     date: ""
 },
-{
-    id: 10,
-    title: "Hafod; Upper Part of Cascade (1793)",
-    src: "/Hafod_Upper_Part_of_Cascade.jpg",
-    artist: "John Warwich Smith",
-    date: "(1793)"
-},
+
 {
     id: 11,
     title: "Fishing At Dawn",
@@ -159,13 +147,6 @@ export const paintings = [
     src: "/The_Pineta_Ravenna.jpg",
     artist: "Edward Lear",
     date: "(1872)"
-},
-{
-    id: 24,
-    title: "Paris, Le Pont-Royal",
-    src: "/Paris_Le_Pont_Royal.jpg",
-    artist: "Paul Signac",
-    date: "(1925)"
 },
 {
     id: 25,
