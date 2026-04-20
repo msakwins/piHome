@@ -12,16 +12,13 @@ import './style.css';
 
 function App() {
   const [fontColorTheme, setFontColorTheme] = useState<ThemeMode>("dark");
-  const [randomImage] = useState(
-    paintings[Math.floor(Math.random() * paintings.length)]
-  );
-  const [data, setData] = useState<SensorData | null>(getMockSensorData());
+  const [randomImage] = useState(() => paintings[Math.floor(Math.random() * paintings.length)]);
+  const [data, setData] = useState<SensorData | null>(() => getMockSensorData());
 
   useEffect(() => {
     getBackgroundColor(randomImage.src, ({ r, g, b }) => {
       const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-      console.log("Brightness:", brightness);
-      const theme = brightness > 14.5 ? "dark" : "light";
+      const theme = brightness > 145 ? "dark" : "light";
       setFontColorTheme(theme);
     });
   }, [randomImage]);

@@ -20,11 +20,11 @@
 .weather-temp {
   font-weight: 700;
   font-size: 30px;
+}
 
-  > span {
-    font-size: 28px;
-    font-weight: 500;
-  }
+.weather-temp > span {
+  font-size: 28px;
+  font-weight: 500;
 }
 
 .weather-desc {
@@ -72,12 +72,6 @@
   margin-top: 2px;
 }
 
-.weather-humidity {
-}
-
-.weather-wind-speed {
-}
-
 .rain-container {
   position: absolute;
   top: 0;
@@ -96,10 +90,16 @@
   height: 30px;
   top: -50px;
   animation: fall linear infinite;
+  transform-origin: top center;
+  transform: scale(var(--scale, 1));
 }
 
 @keyframes fall {
+  from {
+    transform: translateY(0) scale(var(--scale, 1));
+  }
+
   to {
-    transform: translateY(calc(100% + 100px));
+    transform: translateY(calc(100% + 100px)) scale(var(--scale, 1));
   }
 }
