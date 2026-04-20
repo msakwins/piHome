@@ -1,4 +1,5 @@
 import { useMemo, type CSSProperties } from "react";
+import styled from "styled-components";
 
 interface Droplet {
   id: number;
@@ -15,6 +16,38 @@ type RainDropStyle = CSSProperties & {
   "--scale": number;
 };
 
+const RainContainer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 24px;
+`;
+
+const RainDrop = styled.svg`
+  position: absolute;
+  width: 2px;
+  height: 30px;
+  top: -50px;
+  animation: fall linear infinite;
+  transform-origin: top center;
+  transform: scale(var(--scale, 1));
+
+  @keyframes fall {
+    from {
+      transform: translateY(0) scale(var(--scale, 1));
+    }
+
+    to {
+      transform: translateY(calc(100% + 100px)) scale(var(--scale, 1));
+    }
+  }
+`;
+
 export const Rain = () => {
   const droplets = useMemo<Droplet[]>(() => {
     return Array.from({ length: dropletCount }).map((_, i) => ({
@@ -28,11 +61,10 @@ export const Rain = () => {
   }, []);
 
   return (
-    <div className="rain-container">
+    <RainContainer>
       {droplets.map((drop) => (
-        <svg
+        <RainDrop
           key={drop.id}
-          className="rain__drop"
           viewBox="0 0 5 50"
           style={{
             left: `${drop.x}%`,
@@ -46,8 +78,8 @@ export const Rain = () => {
             d="M 2.5,0 C 2.6,3.5 3.3,20.5 4.4,30.9 5.7,42.6 4.5,50 2.5,50 0.4,50 -0.7,42.6 0.5,30.9 1.6,20.5 2.3,3.5 2.5,0 Z"
             fill="white"
           />
-        </svg>
+        </RainDrop>
       ))}
-    </div>
+    </RainContainer>
   );
 };
