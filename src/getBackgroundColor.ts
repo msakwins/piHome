@@ -1,11 +1,15 @@
-export const getBackgroundColor = (imageSrc, callback) => {
+import { RGBColor } from './types/sensor';
+
+export const getBackgroundColor = (imageSrc: string, callback: (color: RGBColor) => void): void => {
   const img = new Image();
-  img.crossOrigin = "Anonymous"; // important if external image
+  img.crossOrigin = "Anonymous";
   img.src = imageSrc;
 
   img.onload = () => {
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
+
+    if (!ctx) return;
 
     canvas.width = img.width;
     canvas.height = img.height;

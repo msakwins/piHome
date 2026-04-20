@@ -6,6 +6,10 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
+      '/api/idfm': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+      },
       '/idfm-api': {
         target: 'https://prim.iledefrance-mobilites.fr/marketplace',
         changeOrigin: true,

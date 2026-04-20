@@ -1,4 +1,4 @@
-export const getDirection = (destinationName) => {
+export const getDirection = (destinationName: string): 'north' | 'south' | 'unknown' => {
   const northDestinations = [
     'Aéroport Charles de Gaulle',
     'Mitry-Claye',

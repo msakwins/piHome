@@ -1,29 +1,28 @@
-import "./clock.css"
-import React from "react"
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
+import "./clock.css";
 
 export default function Clock() {
-  const [time, setTime] = useState(new Date())
+  const [time, setTime] = useState(new Date());
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTime(new Date())
-    }, 60000)
+      setTime(new Date());
+    }, 60000);
 
-    return () => clearInterval(interval)
-  }, [])
+    return () => clearInterval(interval);
+  }, []);
 
   const hour = time.toLocaleTimeString("fr-FR", {
     hour: "2-digit",
     minute: "2-digit"
-  })
+  });
 
   const date = time.toLocaleDateString("fr-FR", {
     weekday: "long",
     day: "numeric",
     month: "long",
     year: "numeric"
-  })
+  });
 
   return (
     <div className="clock font-shadow">
@@ -33,5 +32,5 @@ export default function Clock() {
         <span className="date">{date}</span>
       </div>
     </div>
-  )
+  );
 }

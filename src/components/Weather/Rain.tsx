@@ -1,10 +1,18 @@
-import React from "react"
 import { useMemo } from "react";
+
+interface Droplet {
+  id: number;
+  x: number;
+  delay: number;
+  duration: number;
+  opacity: number;
+  scale: number;
+}
 
 const dropletCount = 180;
 
-export const Rain = () => {
-  const droplets = useMemo(() => {
+export const Rain: React.FC = () => {
+  const droplets = useMemo<Droplet[]>(() => {
     return Array.from({ length: dropletCount }).map((_, i) => ({
       id: i,
       x: Math.random() * 100,      // Horizontal position (%)
@@ -14,22 +22,21 @@ export const Rain = () => {
       scale: Math.random() * 0.5 + 0.5,
     }));
   }, []);
-  return (
 
-      
-      <div className="rain-container">
+  return (
+    <div className="rain-container">
       {droplets.map((drop) => (
-          <svg
+        <svg
           key={drop.id}
           className="rain__drop"
           viewBox="0 0 5 50"
           style={{
-              left: `${drop.x}%`,
-              animationDelay: `${drop.delay}s`,
-              animationDuration: `${drop.duration}s`,
-              opacity: drop.opacity,
-              transform: `scale(${drop.scale})`,
-            }}
+            left: `${drop.x}%`,
+            animationDelay: `${drop.delay}s`,
+            animationDuration: `${drop.duration}s`,
+            opacity: drop.opacity,
+            transform: `scale(${drop.scale})`,
+          }}
         >
           <path
             d="M 2.5,0 C 2.6,3.5 3.3,20.5 4.4,30.9 5.7,42.6 4.5,50 2.5,50 0.4,50 -0.7,42.6 0.5,30.9 1.6,20.5 2.3,3.5 2.5,0 Z"
@@ -38,5 +45,5 @@ export const Rain = () => {
         </svg>
       ))}
     </div>
-
-)}
+  );
+};
