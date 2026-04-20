@@ -52,6 +52,9 @@ body {
   height: auto;
   width: auto;
   padding: 10px 20px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
   > p {
     width: fit-content;
   }
@@ -81,7 +84,8 @@ body {
     from 0deg,
     var(--color1) 0%,
     var(--color2) calc(var(--value) * 1%),
-    grey 0
+    var(--empty-color, grey) calc(var(--value) * 1%),
+    var(--empty-color, grey) 100%
   );
 
   /* inner hole */

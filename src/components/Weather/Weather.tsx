@@ -41,17 +41,28 @@ export default function Weather() {
     99: { icon: '⛈️', text: 'Orage violent' }
   };
 
+  interface DailyForecast {
+    date: string;
+    weatherCode: number;
+    maxTemp: number;
+    minTemp: number;
+  }
+
+  const [daily, setDaily] = useState<DailyForecast[]>([]);
+
   async function fetchWeather(): Promise<void> {
     try {
       const response = await fetch(
-        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,precipitation&daily=sunrise,sunset&timezone=Europe/Paris`
+        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}` +
+        `&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,precipitation` +
+        `&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=Europe/Paris`
       );
-      
+
       const data = await response.json();
       console.log("weather:", data);
-      
+
       const weatherInfo = weatherDescriptions[data.current.weather_code] || { icon: '🌡️', text: 'Météo' };
-      
+
       setWeather({
         temp: Math.round(data.current.temperature_2m),
         humidity: data.current.relative_humidity_2m,
@@ -60,7 +71,16 @@ export default function Weather() {
         description: weatherInfo.text,
         weatherCode: data.current.weather_code
       });
-      
+
+      // Build daily forecast array (next 7 days)
+      const dailyArray: DailyForecast[] = data.daily.time.slice(1, 8).map((date: string, idx: number) => ({
+        date,
+        weatherCode: data.daily.weather_code[idx + 1],
+        maxTemp: Math.round(data.daily.temperature_2m_max[idx + 1]),
+        minTemp: Math.round(data.daily.temperature_2m_min[idx + 1]),
+      }));
+      setDaily(dailyArray);
+
     } catch (error) {
       console.error("Erreur météo:", error);
     } finally {
@@ -102,6 +122,22 @@ export default function Weather() {
       <div className="weather-details">
         <span>💧</span><span className="weather-humidity font-shadow">{weather.humidity}%</span>
         <span>💨</span><span className="weather-wind-speed font-shadow">{weather.windSpeed} km/h</span>
+      </div>
+      {/* Weekly forecast */}
+      <div className="weekly-forecast">
+        {daily.map((day) => {
+          const icon = weatherDescriptions[day.weatherCode]?.icon || '❓';
+          const dateObj = new Date(day.date);
+          const frenchDays = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
+          const dayLabel = frenchDays[dateObj.getDay()];
+          return (
+            <div key={day.date} className="forecast-day">
+              <div className="forecast-day-label">{dayLabel}</div>
+              <div className="forecast-icon">{icon}</div>
+              <div className="forecast-temp">{day.maxTemp}°/{day.minTemp}°</div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
