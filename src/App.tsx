@@ -6,6 +6,7 @@ import { SensorData } from "./types/sensor";
 import { paintings } from "./paintings";
 import { getMockSensorData } from "./mockSensor";
 import Clock from "./components/Clock/Clock";
+import Gauge from "./components/Gauge/Gauge";
 import Metro from "./components/Metro/Metro";
 import Weather from "./components/Weather/Weather";
 import './style.css';
@@ -44,36 +45,29 @@ function App() {
         <Metro />
         <div className="mesure">
           <div className="co2 glass-effect">
-            <div className="gauge" style={{
-              "--value": `${data.humidity}`,
-              "--color1": "#4cc9f0",
-              "--color2": "#3452eb"
-            } as React.CSSProperties}>
-              <div className="inner">
-                💧
-                <span>{data.humidity} %</span>
-              </div>
-            </div>
-            <div className="gauge" style={{
-              "--value": Math.min(data.co2 / 20, 100),
-              "--color1": "#f9c74f",
-              "--color2": "#f94144"
-            } as React.CSSProperties}>
-              <div className="inner">
-                ☁️
-                <span>{data.co2} ppm</span>
-              </div>
-            </div>
-            <div className="gauge" style={{
-              "--value": ((data.temperature - 10) / 20) * 100,
-              "--color1": "#f5fa57",
-              "--color2": "#f3722c",
-            } as React.CSSProperties}>
-              <div className="inner">
-                🌡️
-                <span>{data.temperature} °C</span>
-              </div>
-            </div>
+            <Gauge
+              value={data.humidity}
+              from="#4cc9f0"
+              to="#3452eb"
+              icon="💧"
+              label={`${data.humidity} %`}
+            />
+            {/* 400 ppm is roughly outdoor air, 2000 ppm is clearly bad indoors, so
+                that span is what the ring should show. Gauge clamps above 100. */}
+            <Gauge
+              value={(data.co2 - 400) / 16}
+              from="#86efac"
+              to="#12b76a"
+              icon="☁️"
+              label={`${data.co2} ppm`}
+            />
+            <Gauge
+              value={((data.temperature - 10) / 20) * 100}
+              from="#f5fa57"
+              to="#f3722c"
+              icon="🌡️"
+              label={`${data.temperature} °C`}
+            />
           </div>
         </div>
       </div>

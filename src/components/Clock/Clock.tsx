@@ -16,18 +16,18 @@ const DateCity = styled.div`
 `;
 
 const Time = styled.div`
-  font-size: 60px;
-  line-height: 64px;
+  font-size: 78px;
+  line-height: 82px;
   font-weight: 700;
 `;
 
 const City = styled.span`
-  font-size: 16px;
+  font-size: 22px;
   font-weight: 600;
 `;
 
 const DateText = styled.span`
-  font-size: 18px;
+  font-size: 24px;
   font-weight: 500;
 `;
 
