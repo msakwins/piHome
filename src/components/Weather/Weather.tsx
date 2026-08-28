@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./weather.css";
+import styled from "styled-components";
 
 interface WeatherData {
   temp: number;
@@ -16,6 +16,79 @@ interface DailyForecast {
   maxTemp: number;
   minTemp: number;
 }
+
+const WeatherContainer = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const WeatherMain = styled.div`
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+`;
+
+const WeatherIcon = styled.span`
+  font-size: 32px;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2));
+`;
+
+const WeatherTemp = styled.span`
+  font-weight: 700;
+  font-size: 30px;
+
+  span {
+    font-size: 28px;
+    font-weight: 500;
+  }
+`;
+
+const WeatherDesc = styled.span`
+  font-size: 24px;
+  font-weight: 600;
+  margin-left: 10px;
+`;
+
+const WeatherDetails = styled.div`
+  position: relative;
+  z-index: 2;
+  display: flex;
+  gap: 1rem;
+  font-size: 16px;
+  opacity: 0.9;
+`;
+
+const WeeklyForecast = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 8px;
+`;
+
+const ForecastDay = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 14px;
+  color: white;
+`;
+
+const ForecastDayLabel = styled.div`
+  font-size: 12px;
+  margin-bottom: 2px;
+  color: #ddd;
+`;
+
+const ForecastIcon = styled.div`
+  font-size: 20px;
+`;
+
+const ForecastTemp = styled.div`
+  margin-top: 2px;
+`;
 
 const lat = 48.85;
 const lon = 2.35;
@@ -119,49 +192,49 @@ export default function Weather() {
   }, []);
 
   if (loading) {
-    return <div className="weather">🌤️ Chargement...</div>;
+    return <WeatherContainer>🌤️ Chargement...</WeatherContainer>;
   }
 
   if (error) {
-    return <div className="weather">❌ {error}</div>;
+    return <WeatherContainer>❌ {error}</WeatherContainer>;
   }
 
   if (!weather) {
-    return <div className="weather">❌ Météo indisponible</div>;
+    return <WeatherContainer>❌ Météo indisponible</WeatherContainer>;
   }
 
   return (
-    <div className="weather">
-      <div className="weather-main">
-        <span className="weather-icon">{weather.icon}</span>
-        <span className="weather-temp font-shadow">
+    <WeatherContainer>
+      <WeatherMain>
+        <WeatherIcon>{weather.icon}</WeatherIcon>
+        <WeatherTemp>
           {weather.temp}°<span>C</span>
-        </span>
-        <span className="weather-desc font-shadow">{weather.description}</span>
-      </div>
-      <div className="weather-details">
+        </WeatherTemp>
+        <WeatherDesc>{weather.description}</WeatherDesc>
+      </WeatherMain>
+      <WeatherDetails>
         <span>💧</span>
-        <span className="weather-humidity font-shadow">{weather.humidity}%</span>
+        <span>{weather.humidity}%</span>
         <span>💨</span>
-        <span className="weather-wind-speed font-shadow">{weather.windSpeed} km/h</span>
-      </div>
-      <div className="weekly-forecast">
+        <span>{weather.windSpeed} km/h</span>
+      </WeatherDetails>
+      <WeeklyForecast>
         {daily.map((day) => {
           const icon = weatherDescriptions[day.weatherCode]?.icon || "❓";
           const dateObj = new Date(day.date);
           const dayLabel = frenchDays[dateObj.getDay()];
 
           return (
-            <div key={day.date} className="forecast-day">
-              <div className="forecast-day-label">{dayLabel}</div>
-              <div className="forecast-icon">{icon}</div>
-              <div className="forecast-temp">
+            <ForecastDay key={day.date}>
+              <ForecastDayLabel>{dayLabel}</ForecastDayLabel>
+              <ForecastIcon>{icon}</ForecastIcon>
+              <ForecastTemp>
                 {day.maxTemp}°/{day.minTemp}°
-              </div>
-            </div>
+              </ForecastTemp>
+            </ForecastDay>
           );
         })}
-      </div>
-    </div>
+      </WeeklyForecast>
+    </WeatherContainer>
   );
 }

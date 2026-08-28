@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import styled from "styled-components";
 import { getNextTrain } from "../getNextTrain";
 import { getDirection } from "./getDirection";
-import "./metro.css";
 
 interface Train {
   MonitoredVehicleJourney: {
@@ -12,20 +12,99 @@ interface Train {
   };
 }
 
+const MetroContainer = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 500px;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  font-size: 20px;
+`;
+
+const MetroHeader = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+`;
+
+const MetroMap = styled.img`
+  width: 36px;
+  min-width: 36px;
+`;
+
+const MetroTitle = styled.h2`
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+`;
+
+const ScheduleList = styled.div`
+  width: 100%;
+`;
+
+const StatusMessage = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 140px;
+  text-align: center;
+`;
+
+const LoadingText = styled.p`
+  margin: 0;
+`;
+
+const TrainsContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+`;
+
+const TrainSection = styled.section`
+  > h3 {
+    font-size: 18px;
+    margin: 16px 0 6px;
+    font-weight: 600;
+  }
+`;
+
+const TrainRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin: 4px 0;
+  font-size: 16px;
+`;
+
+const Destination = styled.span`
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
+const TimeBadge = styled.span`
+  flex-shrink: 0;
+  font-size: 18px;
+  font-weight: 700;
+`;
+
 export default function Metro() {
   const [trains, setTrains] = useState<Train[]>([]);
   const [loaded, setLoaded] = useState(false);
 
   const northTrains = trains
-    .filter(train => 
-      getDirection(train.MonitoredVehicleJourney.DestinationName[0].value) === 'north'
-    )
+    .filter((train) => getDirection(train.MonitoredVehicleJourney.DestinationName[0].value) === "north")
     .slice(0, 4);
 
   const southTrains = trains
-    .filter(train => 
-      getDirection(train.MonitoredVehicleJourney.DestinationName[0].value) === 'south'
-    )
+    .filter((train) => getDirection(train.MonitoredVehicleJourney.DestinationName[0].value) === "south")
     .slice(0, 4);
 
   // No hardcoded service window. RER B and metro 4 at Bagneux run well past
@@ -40,57 +119,71 @@ export default function Metro() {
 
   useEffect(() => {
     updateTrains();
-    const interval = setInterval(updateTrains, 90000); // Check every 90s
+    const interval = setInterval(updateTrains, 90000);
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="metro glass-effect font-shadow">
+    <MetroContainer className="glass-effect">
       <div className="glass-reflection" />
-      <div className="metro-header">
-        <img src="/rerb.png" alt="Metro Map" style={{ width: '36px', minWidth: '36px' }} />
-        <h2 className="metro-title">Bagneux</h2>
-      </div>
+      <MetroHeader>
+        <MetroMap src="/rerb.png" alt="Metro Map" />
+        <MetroTitle>Bagneux</MetroTitle>
+      </MetroHeader>
 
-      <div className="schedule-list">
+      <ScheduleList>
         {!loaded ? (
-          <p className="loading-text">Fetching departures...</p>
+          <LoadingText>Fetching departures...</LoadingText>
         ) : trains.length === 0 ? (
-          <div className="night-mode-msg">
+          <StatusMessage>
             <p>No upcoming departures</p>
-          </div>
+          </StatusMessage>
         ) : (
-          <div className="trains-container">
-            <div className="north-section">
+          <TrainsContainer>
+            <TrainSection>
               <h3>↑ Direction Nord</h3>
               {northTrains.map((train, index) => (
-                <div key={index} className="train-row">
-                  <span className="destination">
+                <TrainRow key={index}>
+                  <Destination>
                     {train.MonitoredVehicleJourney.DestinationName[0].value.slice(0, 27)}
-                  </span>
-                  <span className="time-badge">
-                    {Math.max(0, Math.floor((new Date(train.MonitoredVehicleJourney.MonitoredCall.ExpectedDepartureTime).getTime() - new Date().getTime()) / 60000))} min
-                  </span>
-                </div>
+                  </Destination>
+                  <TimeBadge>
+                    {Math.max(
+                      0,
+                      Math.floor(
+                        (new Date(train.MonitoredVehicleJourney.MonitoredCall.ExpectedDepartureTime).getTime() -
+                          new Date().getTime()) /
+                          60000
+                      )
+                    )}{" "}
+                    min
+                  </TimeBadge>
+                </TrainRow>
               ))}
-            </div>
+            </TrainSection>
 
-            <div className="south-section">
+            <TrainSection>
               <h3>↓ Direction Sud</h3>
               {southTrains.map((train, index) => (
-                <div key={index} className="train-row">
-                  <span className="destination">
-                    {train.MonitoredVehicleJourney.DestinationName[0].value}
-                  </span>
-                  <span className="time-badge">
-                    {Math.max(0, Math.floor((new Date(train.MonitoredVehicleJourney.MonitoredCall.ExpectedDepartureTime).getTime() - new Date().getTime()) / 60000))} min
-                  </span>
-                </div>
+                <TrainRow key={index}>
+                  <Destination>{train.MonitoredVehicleJourney.DestinationName[0].value}</Destination>
+                  <TimeBadge>
+                    {Math.max(
+                      0,
+                      Math.floor(
+                        (new Date(train.MonitoredVehicleJourney.MonitoredCall.ExpectedDepartureTime).getTime() -
+                          new Date().getTime()) /
+                          60000
+                      )
+                    )}{" "}
+                    min
+                  </TimeBadge>
+                </TrainRow>
               ))}
-            </div>
-          </div>
+            </TrainSection>
+          </TrainsContainer>
         )}
-      </div>
-    </div>
+      </ScheduleList>
+    </MetroContainer>
   );
 }

@@ -17,6 +17,8 @@ body {
   width: 100%;
   padding: 20px 20px 10px;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
   background: rgb(227, 239, 253);
   background-size: cover;
   background-position: center;
@@ -51,10 +53,10 @@ body {
 .co2 {
   height: auto;
   width: auto;
-  padding: 10px 20px;
+  padding: 16px 26px;
   display: flex;
   justify-content: center;
-  gap: 12px;
+  gap: 22px;
   > p {
     width: fit-content;
   }
@@ -67,39 +69,25 @@ body {
 }
 
 .gauge {
-  width: 70px;
+  width: 108px;
   aspect-ratio: 1;
   position: relative;
 }
 
-/* donut progress */
-.gauge::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
+/* Ring geometry lives in Gauge.tsx as SVG; only presentation is here.
+   Rotated so the arc starts at 12 o'clock instead of 3. */
+.gauge svg {
+  display: block;
+  transform: rotate(-90deg);
+}
 
-  /* progress + remainder */
-  background: conic-gradient(
-    from 0deg,
-    var(--color1) 0%,
-    var(--color2) calc(var(--value) * 1%),
-    var(--empty-color, grey) calc(var(--value) * 1%),
-    var(--empty-color, grey) 100%
-  );
+.gauge circle {
+  fill: none;
+}
 
-  /* inner hole */
-  -webkit-mask: radial-gradient(
-    farthest-side,
-    transparent calc(100% - 6px),
-    #000 0
-  );
-
-  mask: radial-gradient(
-    farthest-side,
-    transparent calc(100% - 6px),
-    #000 0
-  );
+/* Translucent, not opaque grey: the painting reads through the empty part. */
+.gauge-track {
+  stroke: rgba(255, 255, 255, 0.18);
 }
 
 .inner {
@@ -109,13 +97,13 @@ body {
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  font-size:12px;
+  font-size:24px;
   color:white;
   z-index:1;
 }
 
 .inner span {
-  font-size:11px;
+  font-size:16px;
   opacity:0.8;
 }
 
@@ -124,6 +112,9 @@ body {
   font-size: 14px;
   flex-direction: column;
   align-items: flex-end;
+  /* Pin the credit to the bottom of the screen instead of letting it float
+     directly under .main, which left ~114px of dead space below it. */
+  margin-top: auto;
   > h2 {
     margin:  0;
   }
