@@ -16,19 +16,21 @@ const DateCity = styled.div`
 `;
 
 const Time = styled.div`
-  font-size: 78px;
-  line-height: 82px;
+  font-size: 66px;
+  line-height: 70px;
   font-weight: 700;
 `;
 
 const City = styled.span`
-  font-size: 22px;
+  font-size: 19px;
   font-weight: 600;
 `;
 
 const DateText = styled.span`
-  font-size: 24px;
+  /* nowrap: at 24px the date broke onto two lines on the 1024x600 panel */
+  font-size: 20px;
   font-weight: 500;
+  white-space: nowrap;
 `;
 
 export default function Clock() {
