@@ -12,11 +12,6 @@ interface Train {
   };
 }
 
-const isServiceActive = (): boolean => {
-  const hours = new Date().getHours();
-  return hours >= 5 && hours < 23;
-};
-
 const MetroContainer = styled.div`
   position: relative;
   display: flex;
@@ -102,7 +97,7 @@ const TimeBadge = styled.span`
 
 export default function Metro() {
   const [trains, setTrains] = useState<Train[]>([]);
-  const [active, setActive] = useState(isServiceActive());
+  const [loaded, setLoaded] = useState(false);
 
   const northTrains = trains
     .filter((train) => getDirection(train.MonitoredVehicleJourney.DestinationName[0].value) === "north")
@@ -112,18 +107,14 @@ export default function Metro() {
     .filter((train) => getDirection(train.MonitoredVehicleJourney.DestinationName[0].value) === "south")
     .slice(0, 4);
 
+  // No hardcoded service window. RER B and metro 4 at Bagneux run well past
+  // midnight, so the old 05:00-23:00 gate claimed "service resumes at 05:00" while
+  // trains were still running. Let the API answer instead: an empty response
+  // genuinely means there is nothing upcoming.
   const updateTrains = async (): Promise<void> => {
-    const isNowActive = isServiceActive();
-    setActive(isNowActive);
-
-    if (isNowActive) {
-      const data = await getNextTrain();
-      if (Array.isArray(data)) {
-        setTrains(data.slice(0, 12));
-      }
-    } else {
-      setTrains([]);
-    }
+    const data = await getNextTrain();
+    setTrains(Array.isArray(data) ? data.slice(0, 12) : []);
+    setLoaded(true);
   };
 
   useEffect(() => {
@@ -141,12 +132,12 @@ export default function Metro() {
       </MetroHeader>
 
       <ScheduleList>
-        {!active ? (
-          <StatusMessage>
-            <p>Service resumes at 05:00</p>
-          </StatusMessage>
-        ) : trains.length === 0 ? (
+        {!loaded ? (
           <LoadingText>Fetching departures...</LoadingText>
+        ) : trains.length === 0 ? (
+          <StatusMessage>
+            <p>No upcoming departures</p>
+          </StatusMessage>
         ) : (
           <TrainsContainer>
             <TrainSection>

@@ -40,8 +40,16 @@ npm install
 Tu peux partir de `.env.example` :
 
 ```bash
-VITE_IDFM_API_KEY=ta_cle_api_idfm
+IDFM_API_KEY=ta_cle_api_idfm
 ```
+
+> La clé n'a **pas** de préfixe `VITE_` : elle est lue côté serveur par la fonction
+> `api/trains.js`. Une variable `VITE_` serait intégrée au bundle public au moment du
+> build, donc lisible par n'importe qui. En production, définis `IDFM_API_KEY` dans les
+> variables d'environnement Vercel.
+>
+> En local, `npm run dev` ne sert pas les fonctions du dossier `api/` : utilise
+> `vercel dev` si tu veux tester les horaires de train.
 
 ## Lancer le projet
 
