@@ -68,18 +68,19 @@ const WeeklyForecast = styled.div`
   margin-top: 8px;
 `;
 
+/* No hardcoded colours here: inherit from .app so the forecast follows the
+   dark/light font theme picked from the painting's brightness. */
 const ForecastDay = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   font-size: 14px;
-  color: white;
 `;
 
 const ForecastDayLabel = styled.div`
   font-size: 12px;
   margin-bottom: 2px;
-  color: #ddd;
+  opacity: 0.75;
 `;
 
 const ForecastIcon = styled.div`

@@ -98,7 +98,8 @@ body {
   align-items:center;
   justify-content:center;
   font-size:24px;
-  color:white;
+  /* No hardcoded colour: inherit from .app so the ring labels follow the
+     dark/light font theme picked from the painting's brightness. */
   z-index:1;
 }
 
@@ -126,11 +127,11 @@ body {
 
 .glass-effect {
   /* Blur does most of the legibility work: 0.8px was barely any, so busy
-     paintings showed straight through the panels. 14px turns them into soft
-     colour while keeping the glass look. */
-  background: rgba(255, 255, 255, 0.18);
-  backdrop-filter: blur(14px) saturate(115%);
-  -webkit-backdrop-filter: blur(14px) saturate(115%);
+     paintings showed straight through the panels. Enough to soften detail
+     without frosting the painting out. */
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(5px) saturate(118%);
+  -webkit-backdrop-filter: blur(5px) saturate(118%);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 28px; /* Plus arrondi */
   overflow: hidden;
