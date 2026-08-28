@@ -95,3 +95,4 @@ npm run lint
 Les données de capteurs sont simulées dans l'état actuel du projet.  
 L'interface est donc prête à être reliée plus tard à de vrais capteurs ou à une source domotique.
 
+This branch is a small smoke test for automatic pull request review.
