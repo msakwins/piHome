@@ -12,15 +12,9 @@ interface Train {
   };
 }
 
-const isServiceActive = (): boolean => {
-  const hours = new Date().getHours();
-  // Active from 05:00:00 through 22:59:59
-  return hours >= 5 && hours < 23;
-};
-
 export default function Metro() {
   const [trains, setTrains] = useState<Train[]>([]);
-  const [active, setActive] = useState(isServiceActive());
+  const [loaded, setLoaded] = useState(false);
 
   const northTrains = trains
     .filter(train => 
@@ -34,18 +28,14 @@ export default function Metro() {
     )
     .slice(0, 4);
 
+  // No hardcoded service window. RER B and metro 4 at Bagneux run well past
+  // midnight, so the old 05:00-23:00 gate claimed "service resumes at 05:00" while
+  // trains were still running. Let the API answer instead: an empty response
+  // genuinely means there is nothing upcoming.
   const updateTrains = async (): Promise<void> => {
-    const isNowActive = isServiceActive();
-    setActive(isNowActive);
-
-    if (isNowActive) {
-      const data = await getNextTrain();
-      if (Array.isArray(data)) {
-        setTrains(data.slice(0, 12));
-      }
-    } else {
-      setTrains([]); // Clear trains during night hours
-    }
+    const data = await getNextTrain();
+    setTrains(Array.isArray(data) ? data.slice(0, 12) : []);
+    setLoaded(true);
   };
 
   useEffect(() => {
@@ -63,12 +53,12 @@ export default function Metro() {
       </div>
 
       <div className="schedule-list">
-        {!active ? (
-          <div className="night-mode-msg">
-            <p>Service resumes at 05:00</p>
-          </div>
-        ) : trains.length === 0 ? (
+        {!loaded ? (
           <p className="loading-text">Fetching departures...</p>
+        ) : trains.length === 0 ? (
+          <div className="night-mode-msg">
+            <p>No upcoming departures</p>
+          </div>
         ) : (
           <div className="trains-container">
             <div className="north-section">

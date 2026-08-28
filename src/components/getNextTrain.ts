@@ -1,16 +1,9 @@
-const IDFM_API_BASE = 'https://prim.iledefrance-mobilites.fr/marketplace';
-
+// Departures come from our own /api/trains serverless function, not straight from
+// IDFM. Calling PRIM from the browser cannot work: it sends no CORS headers, and the
+// key would have to be a VITE_ variable, which Vite inlines into the public bundle.
 export const getNextTrain = async (): Promise<any[]> => {
-  const stopId = '44493'; // Bagneux
-  const monitoringRef = `STIF:StopArea:SP:${stopId}:`;
-  const url = `${IDFM_API_BASE}/stop-monitoring?MonitoringRef=${encodeURIComponent(monitoringRef)}`;
-
   try {
-    const response = await fetch(url, {
-      headers: {
-        apikey: import.meta.env.VITE_IDFM_API_KEY,
-      },
-    });
+    const response = await fetch('/api/trains');
 
     if (!response.ok) {
       console.error(`HTTP error! status: ${response.status}`);
@@ -18,14 +11,9 @@ export const getNextTrain = async (): Promise<any[]> => {
     }
 
     const data = await response.json();
-    console.log('IDFM API Response:', data);
-
-    const visits =
-      data?.Siri?.ServiceDelivery?.StopMonitoringDelivery?.[0]?.MonitoredStopVisit;
-
-    return visits || [];
+    return Array.isArray(data) ? data : [];
   } catch (error) {
-    console.error('Error fetching IDFM data:', error);
+    console.error('Error fetching train data:', error);
     return [];
   }
 };
