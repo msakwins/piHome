@@ -1,0 +1,6 @@
+[Unit]
+Description=Restart the piHome kiosk
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/systemctl restart pihome-kiosk.service
