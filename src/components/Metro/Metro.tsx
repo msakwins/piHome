@@ -6,6 +6,7 @@ import { getDirection } from "./getDirection";
 interface Train {
   MonitoredVehicleJourney: {
     DestinationName: [{ value: string }];
+    DirectionRef?: { value?: string };
     MonitoredCall: {
       ExpectedDepartureTime: string;
     };
@@ -16,13 +17,13 @@ const MetroContainer = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: flex-start;
   width: 500px;
   height: 100%;
-  padding: 20px;
+  padding: 24px;
   box-sizing: border-box;
-  font-size: 20px;
+  font-size: 24px;
 `;
 
 const MetroHeader = styled.div`
@@ -33,13 +34,13 @@ const MetroHeader = styled.div`
 `;
 
 const MetroMap = styled.img`
-  width: 36px;
-  min-width: 36px;
+  width: 44px;
+  min-width: 44px;
 `;
 
 const MetroTitle = styled.h2`
   margin: 0;
-  font-size: 22px;
+  font-size: 28px;
   font-weight: 700;
 `;
 
@@ -67,8 +68,8 @@ const TrainsContainer = styled.div`
 
 const TrainSection = styled.section`
   > h3 {
-    font-size: 18px;
-    margin: 16px 0 6px;
+    font-size: 22px;
+    margin: 18px 0 8px;
     font-weight: 600;
   }
 `;
@@ -78,8 +79,8 @@ const TrainRow = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 20px;
-  margin: 4px 0;
-  font-size: 16px;
+  margin: 7px 0;
+  font-size: 20px;
 `;
 
 const Destination = styled.span`
@@ -91,7 +92,7 @@ const Destination = styled.span`
 
 const TimeBadge = styled.span`
   flex-shrink: 0;
-  font-size: 18px;
+  font-size: 22px;
   font-weight: 700;
 `;
 
@@ -100,11 +101,11 @@ export default function Metro() {
   const [loaded, setLoaded] = useState(false);
 
   const northTrains = trains
-    .filter((train) => getDirection(train.MonitoredVehicleJourney.DestinationName[0].value) === "north")
+    .filter((train) => getDirection(train.MonitoredVehicleJourney) === "north")
     .slice(0, 4);
 
   const southTrains = trains
-    .filter((train) => getDirection(train.MonitoredVehicleJourney.DestinationName[0].value) === "south")
+    .filter((train) => getDirection(train.MonitoredVehicleJourney) === "south")
     .slice(0, 4);
 
   // No hardcoded service window. RER B and metro 4 at Bagneux run well past

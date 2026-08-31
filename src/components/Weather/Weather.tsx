@@ -58,7 +58,6 @@ const WeatherDetails = styled.div`
   display: flex;
   gap: 1rem;
   font-size: 16px;
-  opacity: 0.9;
 `;
 
 const WeeklyForecast = styled.div`
@@ -80,7 +79,6 @@ const ForecastDay = styled.div`
 const ForecastDayLabel = styled.div`
   font-size: 12px;
   margin-bottom: 2px;
-  opacity: 0.75;
 `;
 
 const ForecastIcon = styled.div`

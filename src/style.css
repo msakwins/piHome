@@ -7,7 +7,7 @@
 
 body {
   margin: 0;
-  font-family: system-ui;
+  font-family: "Quicksand", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   min-height: unset;
   min-width: unset;
 }
@@ -35,16 +35,21 @@ body {
 }
 
 .main {
+  /* Fill everything between the header and the painting credit, so the trains
+     panel reaches the bottom of the screen instead of hugging its content. */
+  flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: row;
+  align-items: stretch;
   gap: 16px;
-  height: auto;
   width: 100%;
 }
 
 .mesure {
-  height: 100%;
-  width: 100%;
+  /* width:100% here fought Metro's 500px and flex-shrank it to ~336px. Let it
+     size to its content and align to the top instead of stretching. */
+  align-self: flex-start;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -97,15 +102,26 @@ body {
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  font-size:24px;
+  font-size:20px;
+  line-height:1.15;
   /* No hardcoded colour: inherit from .app so the ring labels follow the
      dark/light font theme picked from the painting's brightness. */
   z-index:1;
 }
 
-.inner span {
-  font-size:16px;
-  opacity:0.8;
+.gauge-icon {
+  font-size: 20px;
+}
+
+.gauge-reading {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.gauge-unit {
+  font-size: 0.68em;
+  opacity: 0.75;
+  margin-left: 2px;
 }
 
 .painting-info {
@@ -157,4 +173,15 @@ body {
   );
   pointer-events: none;
   border-radius: 24px;
+}
+
+/* Single source of truth for text colour. fontTheme sets these two custom
+   properties inline on .app from the painting's brightness; the values here are
+   the fallback. Anything needing the themed colour uses var(--font-color)
+   rather than its own literal. */
+.app {
+  --font-color: rgb(26, 38, 52);
+  --font-shadow: 0 0 1px rgba(230, 234, 255, 0.7);
+  color: var(--font-color);
+  text-shadow: var(--font-shadow);
 }
