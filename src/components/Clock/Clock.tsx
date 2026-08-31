@@ -16,13 +16,14 @@ const DateCity = styled.div`
 `;
 
 const Time = styled.div`
-  font-size: 66px;
-  line-height: 70px;
+  font-size: 100px;
+  line-height: 104px;
+  font-variant-numeric: tabular-nums;
   font-weight: 700;
 `;
 
 const City = styled.span`
-  font-size: 19px;
+  font-size: 30px;
   font-weight: 600;
 `;
 

@@ -11,7 +11,10 @@ type GaugeProps = {
   from: string;
   to: string;
   icon: string;
-  label: string;
+  /** The number on its own line. */
+  reading: string;
+  /** The unit, on the line below it. */
+  unit: string;
 };
 
 /**
@@ -20,7 +23,7 @@ type GaugeProps = {
  * rounded caps are what make the ring read as modern. The track is translucent
  * instead of opaque grey so the painting behind it shows through.
  */
-export default function Gauge({ value, from, to, icon, label }: GaugeProps) {
+export default function Gauge({ value, from, to, icon, reading, unit }: GaugeProps) {
   // useId() embeds ':' characters, which are awkward inside a url(#...) reference.
   const gradientId = `gauge-${useId().replace(/:/g, "")}`;
 
@@ -57,8 +60,11 @@ export default function Gauge({ value, from, to, icon, label }: GaugeProps) {
       </svg>
 
       <div className="inner">
-        {icon}
-        <span>{label}</span>
+        <span className="gauge-icon">{icon}</span>
+        <span className="gauge-reading">
+          {reading}
+          <span className="gauge-unit">{unit}</span>
+        </span>
       </div>
     </div>
   );
