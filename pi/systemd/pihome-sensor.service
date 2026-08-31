@@ -1,0 +1,14 @@
+[Unit]
+Description=piHome SCD41 sensor reader
+After=network.target
+
+[Service]
+Type=simple
+User=mirion
+WorkingDirectory=/home/mirion/sensor
+ExecStart=/home/mirion/sensor-env/bin/python /home/mirion/sensor/service.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
